@@ -1,8 +1,20 @@
+import { useGlobalState, withState } from "./state";
+
 import "./App.css";
-import { withState } from "./state";
 
 function App() {
-  return <main>hola mundo</main>;
+  const { snippets } = useGlobalState();
+
+  if (snippets.isLoading) return <main>loading...</main>;
+  if (snippets.isError) return <main>error</main>;
+
+  return (
+    <main>
+      <code>
+        <pre>{JSON.stringify(snippets.data, null, 2)}</pre>
+      </code>
+    </main>
+  );
 }
 
 export default withState(App);
