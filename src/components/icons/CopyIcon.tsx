@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { copy } from "../../utils";
 
 import type { FC } from "react";
@@ -16,8 +18,10 @@ export const CopyIcon: FC<Props> = ({
   const handleCopyClick = async () => {
     try {
       copy(text);
+      toast.success("Copied to clipboard!");
       handleCallback?.({ success: true });
     } catch (err) {
+      toast.error("Something went wrong");
       handleCallback?.({ success: false });
     }
   };
