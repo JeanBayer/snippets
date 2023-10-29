@@ -1,4 +1,5 @@
 type File = {
+  id: string;
   fileName: string;
   code: string;
 };

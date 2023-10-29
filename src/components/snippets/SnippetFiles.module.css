@@ -1,0 +1,10 @@
+.snippetFiles {
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.fileName {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
