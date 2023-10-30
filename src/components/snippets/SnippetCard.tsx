@@ -22,7 +22,7 @@ export const SnippetCard: FC<Props> = ({ snippet }) => {
 
   return (
     <article className={styles.article}>
-      <h3>{snippet.title}</h3>
+      <h3 className={styles.title}>{snippet.title}</h3>
       <div className={styles.snippets}>
         <SnippetFiles files={snippet.files} handleClick={handleClick} />
         <code className={styles.code}>
