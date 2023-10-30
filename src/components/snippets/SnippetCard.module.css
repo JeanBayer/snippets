@@ -1,0 +1,61 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 300px;
+  height: 600px;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.snippets {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 100%;
+}
+
+.snippetFiles {
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.fileName {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.code {
+  background-color: rgb(28, 28, 28);
+  width: 100%;
+  height: 100%;
+  padding: 16px 8px;
+  overflow-x: scroll;
+  position: relative;
+}
+
+.copyIcon {
+  padding: 0;
+  margin: 0;
+  border: 0;
+
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.copyIcon svg:hover {
+  stroke: rgb(141, 150, 255);
+}
+
+.copyIcon svg:active {
+  stroke: rgb(141, 255, 230);
+}

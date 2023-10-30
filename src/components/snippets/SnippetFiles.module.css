@@ -1,0 +1,16 @@
+.snippetFiles {
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+  background-color: rgb(33, 33, 33);
+}
+
+.fileName {
+  cursor: pointer;
+  background-color: rgb(40, 40, 40);
+  border: 1px solid transparent;
+}
+
+.active {
+  background-color: rgb(28, 28, 28);
+}

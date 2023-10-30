@@ -1,5 +1,7 @@
 import { useGlobalState, withState } from "./state";
 
+import { SnippetList } from "./components";
+
 import "./App.css";
 
 function App() {
@@ -10,9 +12,7 @@ function App() {
 
   return (
     <main>
-      <code>
-        <pre>{JSON.stringify(snippets.data, null, 2)}</pre>
-      </code>
+      <SnippetList snippets={snippets.data} />
     </main>
   );
 }
