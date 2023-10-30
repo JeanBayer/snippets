@@ -1,6 +1,6 @@
 import { type FC, useState } from "react";
 
-import { CopyIcon, SnippetFiles } from "../../components";
+import { CopyIcon, ListStack, SnippetFiles } from "../../components";
 import type { Snippet } from "../../types";
 
 import styles from "./SnippetCard.module.css";
@@ -22,7 +22,12 @@ export const SnippetCard: FC<Props> = ({ snippet }) => {
 
   return (
     <article className={styles.article}>
-      <h3 className={styles.title}>{snippet.title}</h3>
+      <header>
+        <h3 className={styles.title}>{snippet.title}</h3>
+      </header>
+
+      <ListStack stacks={snippet.stack} />
+
       <div className={styles.snippets}>
         <SnippetFiles files={snippet.files} handleClick={handleClick} />
         <code className={styles.code}>

@@ -52,10 +52,10 @@
   transition: all 0.2s ease-in-out;
 }
 
-.copyIcon:hover {
+.copyIcon svg:hover {
   stroke: rgb(141, 150, 255);
 }
 
-.copyIcon:active {
+.copyIcon svg:active {
   stroke: rgb(141, 255, 230);
 }

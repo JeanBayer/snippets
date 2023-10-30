@@ -1,0 +1,7 @@
+.img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  cursor: help;
+  border-radius: 25px;
+}
