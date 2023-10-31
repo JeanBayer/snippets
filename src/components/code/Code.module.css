@@ -1,0 +1,11 @@
+.code {
+  position: relative;
+  width: 100%;
+  flex: 1;
+}
+
+.copyIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

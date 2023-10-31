@@ -1,18 +1,19 @@
+import type { FC } from "react";
 import { toast } from "react-toastify";
+import classNames from "classnames";
 
 import { copy } from "../../utils";
-
-import type { FC } from "react";
+import styles from "./CopyIcon.module.css";
 
 type Props = {
   text: string;
-  styles?: string;
+  style?: string;
   handleCallback?: (res: { success: boolean }) => void;
 };
 
 export const CopyIcon: FC<Props> = ({
   text = "",
-  styles = "",
+  style = "",
   handleCallback,
 }) => {
   const handleCopyClick = async () => {
@@ -26,9 +27,12 @@ export const CopyIcon: FC<Props> = ({
     }
   };
 
+  const className = classNames(style, styles.copyIcon);
+
   return (
-    <button className={styles} onClick={handleCopyClick}>
+    <button className={className} onClick={handleCopyClick}>
       <svg
+        className={styles.svg}
         xmlns="http://www.w3.org/2000/svg"
         width="36"
         height="36"

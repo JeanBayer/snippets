@@ -1,6 +1,6 @@
 import { type FC, useState } from "react";
 
-import { CopyIcon, ListStack, SnippetFiles } from "../../components";
+import { Code, ListStack, SnippetFiles } from "../../components";
 import type { Snippet } from "../../types";
 
 import styles from "./SnippetCard.module.css";
@@ -30,10 +30,7 @@ export const SnippetCard: FC<Props> = ({ snippet }) => {
 
       <div className={styles.snippets}>
         <SnippetFiles files={snippet.files} handleClick={handleClick} />
-        <code className={styles.code}>
-          <CopyIcon styles={styles.copyIcon} text={selectedFile?.code!} />
-          <pre>{selectedFile?.code}</pre>
-        </code>
+        <Code file={selectedFile} readOnly={true} />
       </div>
     </article>
   );
