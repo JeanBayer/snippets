@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  padding: 20px;
+  height: 80vh;
+  min-height: 800px;
+}
+
+.containerCode {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

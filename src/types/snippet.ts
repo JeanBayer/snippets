@@ -1,10 +1,9 @@
-import type { Language, Stack } from "../types";
+import type { Stack } from "../types";
 
 type File = {
   id: string;
   fileName: string;
   code: string;
-  language: Language;
 };
 
 export type Snippet = {

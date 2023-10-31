@@ -9,18 +9,20 @@ import styles from "./Code.module.css";
 type Props = {
   file: Snippet["files"][0];
   readOnly?: boolean;
+  onChange?: (value: any) => void;
 };
 
-export const Code: FC<Props> = ({ file, readOnly = false }) => {
+export const Code: FC<Props> = ({
+  file,
+  readOnly = false,
+  onChange = () => {},
+}) => {
   return (
     <div className={styles.code}>
       <Editor
         theme="vs-dark"
         path={file?.fileName}
-        onChange={(value) => {
-          console.log(value);
-        }}
-        defaultLanguage={file?.language}
+        onChange={onChange}
         defaultValue={file?.code}
         options={{ readOnly, minimap: { enabled: false } }}
       />
