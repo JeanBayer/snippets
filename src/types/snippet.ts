@@ -1,10 +1,4 @@
-import type { Language } from "../types";
-
-type Stack = {
-  id: string;
-  name: string;
-  img: string;
-};
+import type { Language, Stack } from "../types";
 
 type File = {
   id: string;

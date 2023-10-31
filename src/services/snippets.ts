@@ -7,6 +7,14 @@ const getByUserID = async (userId: string): Promise<Snippet[]> => {
   return data;
 };
 
+const create = async (snippet: Snippet): Promise<Snippet> => {
+  const { data } = await api.post<Snippet>(`/snippets`, {
+    ...snippet,
+  });
+  return data;
+};
+
 export const snippetService = {
   getByUserID,
+  create,
 };
