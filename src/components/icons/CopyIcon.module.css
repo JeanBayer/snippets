@@ -1,0 +1,16 @@
+.copyIcon {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+}
+
+.svg:hover {
+  stroke: rgb(141, 150, 255);
+}
+
+.svg:active {
+  stroke: rgb(141, 255, 230);
+}
