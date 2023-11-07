@@ -1,32 +1,47 @@
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 import { useGlobalState } from "../state";
 import { FormCreate } from "../components";
+import {
+  createFile,
+  generateId,
+  matchIdsWithStacks,
+  selectIdsFromObject,
+  sleep,
+} from "../utils";
 
 export const CreatePage = () => {
-  const { stacks } = useGlobalState();
+  const { stacks, snippets } = useGlobalState();
+  const navigate = useNavigate();
 
-  const handleSubmit = (dataForm: any) => {
-    const selectedStacksObject = Object.entries(dataForm.selectedStacks)
-      .filter(([, value]) => value === true)
-      .map(([key]) => {
-        return stacks.data?.find((stack) => stack.id === key);
-      });
+  const handleSubmit = async (dataForm: any) => {
+    const selectedStacksIds = selectIdsFromObject(dataForm.selectedStacks);
+    const selectedStacks = matchIdsWithStacks({
+      stackIds: selectedStacksIds,
+      stackConstruct: (stackId) => {
+        return stacks.data?.find((stack) => stack.id === stackId);
+      },
+    });
 
     const files = [
-      {
-        id: crypto.randomUUID(),
+      createFile({
         fileName: dataForm.fileName,
         code: dataForm.code,
-      },
+      }),
     ];
 
-    const data = {
-      id: crypto.randomUUID(),
+    snippets.create({
+      id: generateId(),
       userId: "516dab70-153c-4258-9ecf-2621d419305e",
       title: dataForm.titulo,
-      stacks: selectedStacksObject,
+      stack: selectedStacks,
       files,
-    };
-    console.log(data);
+    });
+
+    toast.success(`Snippet ${dataForm.titulo} creado correctamente`);
+    await sleep(2000);
+    navigate("/");
   };
 
   if (!stacks.data) return <div>Loading...</div>;
