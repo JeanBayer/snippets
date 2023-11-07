@@ -1,7 +1,6 @@
-import { type FC } from "react";
+import { PropsWithChildren, type FC } from "react";
 import Editor from "@monaco-editor/react";
 
-import { CopyIcon } from "../../components";
 import type { Snippet } from "../../types";
 
 import styles from "./Code.module.css";
@@ -12,7 +11,8 @@ type Props = {
   onChange?: (value: any) => void;
 };
 
-export const Code: FC<Props> = ({
+export const Code: FC<PropsWithChildren<Props>> = ({
+  children,
   file,
   readOnly = false,
   onChange = () => {},
@@ -21,12 +21,12 @@ export const Code: FC<Props> = ({
     <div className={styles.code}>
       <Editor
         theme="vs-dark"
-        path={file?.fileName}
+        path={`${file?.id}/${file?.fileName}`}
         onChange={onChange}
         defaultValue={file?.code}
         options={{ readOnly, minimap: { enabled: false } }}
       />
-      <CopyIcon style={styles.copyIcon} text={file?.code!} />
+      {children}
     </div>
   );
 };

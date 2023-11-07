@@ -1,7 +1,9 @@
 import React, { FC, useState } from "react";
+import { toast } from "react-toastify";
 
-import { Code } from "../../components";
-import type { Stack } from "../../types";
+import { Code, DeleteIcon, SnippetFilesCreate } from "../../components";
+import { generateId } from "../../utils";
+import { Snippet, type Stack } from "../../types";
 
 import styles from "./FormCreate.module.css";
 
@@ -10,8 +12,7 @@ type Props = {
   onSubmit: (data: {
     titulo: string;
     selectedStacks: Record<string, boolean>;
-    fileName: string;
-    code: string;
+    files: Snippet["files"];
   }) => void;
 };
 
@@ -20,8 +21,17 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
   const [selectedStacks, setSelectedStacks] = useState<Record<string, boolean>>(
     {},
   );
-  const [fileName, setFileName] = useState("");
-  const [code, setCode] = useState<string>("");
+  const [files, setFiles] = useState<Snippet["files"]>([
+    {
+      code: "",
+      fileName: "index.tsx",
+      id: generateId(),
+    },
+  ]);
+
+  const [selectedIdFile, setSelectedIdFile] = useState(files[0].id);
+
+  const selectedFile = files.find(({ id }) => id === selectedIdFile);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,10 +40,46 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
     onSubmit({
       titulo,
       selectedStacks,
-      fileName,
-      code,
+      files,
     });
   };
+
+  const updateFile = (id: string, data: Partial<Snippet["files"][0]>) => {
+    const newFiles = files.map((file) => {
+      if (file.id === id) {
+        return {
+          ...file,
+          ...data,
+        };
+      }
+
+      return file;
+    });
+
+    setFiles(newFiles);
+  };
+
+  const addFile = () => {
+    setFiles([
+      ...files,
+      {
+        code: "",
+        fileName: "newFile.ts",
+        id: generateId(),
+      },
+    ]);
+  };
+
+  const deleteFile = (id: string) => {
+    const newFiles = files.filter((file) => file.id !== id);
+    if (newFiles.length === 0)
+      return toast.error("No puedes eliminar todos los archivos");
+
+    setSelectedIdFile(newFiles[0].id);
+    setFiles(newFiles);
+  };
+
+  if (!selectedFile) throw new Error("File not found");
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -72,32 +118,58 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
         })}
       </fieldset>
 
-      <label>
-        <span>File Name:</span>
-        <input
-          type="text"
-          placeholder="index.tsx"
-          value={fileName}
-          onChange={(event) => {
-            setFileName(event.target.value);
-          }}
-        />
-      </label>
+      <fieldset
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+        }}
+      >
+        <legend>Files</legend>
 
-      <label className={styles.containerCode}>
-        <span>Code:</span>
-        <Code
-          file={{
-            id: crypto.randomUUID(),
-            fileName,
-            code,
+        <SnippetFilesCreate
+          files={files}
+          selectedFileId={selectedIdFile}
+          handleClick={(id) => setSelectedIdFile(id)}
+          handleChange={(event) => {
+            updateFile(event.target.name, {
+              fileName: event.target.value,
+            });
           }}
-          readOnly={false}
-          onChange={(value) => {
-            setCode(value);
-          }}
+          addFile={addFile}
         />
-      </label>
+
+        <div
+          style={{
+            height: 500,
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+          }}
+        >
+          <label className={styles.containerCode}>
+            <span>Code:</span>
+            <Code
+              file={{
+                id: selectedFile?.id,
+                fileName: selectedFile?.fileName,
+                code: selectedFile?.code,
+              }}
+              readOnly={false}
+              onChange={(value) => {
+                updateFile(selectedFile?.id, {
+                  code: value,
+                });
+              }}
+            >
+              <DeleteIcon
+                style={styles.copyIcon}
+                handleDelete={() => deleteFile(selectedFile?.id)}
+              />
+            </Code>
+          </label>
+        </div>
+      </fieldset>
 
       <input type="submit" value="Crear" />
     </form>

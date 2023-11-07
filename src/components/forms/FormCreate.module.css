@@ -13,3 +13,9 @@
   flex-direction: column;
   height: 100%;
 }
+
+.copyIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
