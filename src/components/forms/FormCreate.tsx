@@ -85,6 +85,9 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
+      <h2>Crea tu Snippet</h2>
+      <hr />
+
       <label className={styles.inputTitulo}>
         <span>Titulo:</span>
         <input
