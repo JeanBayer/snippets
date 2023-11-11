@@ -3,9 +3,15 @@
   flex-direction: column;
   width: 100vw;
   gap: 20px;
-  padding: 20px;
-  height: 80vh;
-  min-height: 800px;
+  padding: 48px 24px;
+  max-width: 700px;
+  margin: 24px auto;
+  background: linear-gradient(to bottom right, #1c1c1c, #242424);
+  background-size: 100% 100%;
+  border-radius: 30px;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .inputTitulo {
@@ -14,22 +20,23 @@
   gap: 10px;
   min-width: 280px;
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 .fieldSetContainerStacks {
   min-width: 280px;
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 .containerInputStacks {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 200px;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-height: 140px;
   overflow: auto;
 }
 
@@ -38,6 +45,7 @@
   gap: 20px;
   padding: 4px;
   transition: all 0.3s ease;
+  width: 150px;
 }
 
 .inputStack:hover {
@@ -63,14 +71,22 @@
   cursor: pointer;
 }
 
-.containerCode {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.inputStack span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.copyIcon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+.fieldSetContainerSnippet {
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.containerCode {
+  display: flex;
+  height: 500px;
 }

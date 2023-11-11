@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
 import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
 
-import { Code, DeleteIcon, SnippetFilesCreate } from "../../components";
+import { Code, SnippetFilesCreate } from "../../components";
 import { generateId } from "../../utils";
 import { Snippet, type Stack } from "../../types";
 
@@ -75,7 +76,8 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
     if (newFiles.length === 0)
       return toast.error("No puedes eliminar todos los archivos");
 
-    setSelectedIdFile(newFiles[0].id);
+    const leftFileIndex = files.findIndex((file) => file.id === id) - 1;
+    setSelectedIdFile(newFiles.at(leftFileIndex)?.id || newFiles[0].id);
     setFiles(newFiles);
   };
 
@@ -95,12 +97,16 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
         />
       </label>
 
-      <fieldset className={styles.fieldSetContainerStacks}>
-        <legend>Stacks</legend>
+      <div className={styles.fieldSetContainerStacks}>
+        <legend>Stacks:</legend>
         <div className={styles.containerInputStacks}>
           {stacks?.map((stack) => {
             return (
-              <label className={styles.inputStack} key={stack.id}>
+              <label
+                className={styles.inputStack}
+                key={stack.id}
+                data-tooltip-id={stack.id}
+              >
                 <input
                   className={styles.check}
                   type="checkbox"
@@ -115,20 +121,17 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
                   }}
                 />
                 <span>{stack.name}</span>
+                <Tooltip id={stack.id} place="top">
+                  {stack.name}
+                </Tooltip>
               </label>
             );
           })}
         </div>
-      </fieldset>
+      </div>
 
-      <fieldset
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 20,
-        }}
-      >
-        <legend>Files</legend>
+      <div className={styles.fieldSetContainerSnippet}>
+        <legend>Files:</legend>
 
         <SnippetFilesCreate
           files={files}
@@ -140,40 +143,25 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
             });
           }}
           addFile={addFile}
+          handleDelete={() => deleteFile(selectedFile?.id)}
         />
 
-        <div
-          style={{
-            height: 500,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: 5,
-          }}
-        >
-          <label className={styles.containerCode}>
-            <span>Code:</span>
-            <Code
-              file={{
-                id: selectedFile?.id,
-                fileName: selectedFile?.fileName,
-                code: selectedFile?.code,
-              }}
-              readOnly={false}
-              onChange={(value) => {
-                updateFile(selectedFile?.id, {
-                  code: value,
-                });
-              }}
-            >
-              <DeleteIcon
-                style={styles.copyIcon}
-                handleDelete={() => deleteFile(selectedFile?.id)}
-              />
-            </Code>
-          </label>
+        <div className={styles.containerCode}>
+          <Code
+            file={{
+              id: selectedFile?.id,
+              fileName: selectedFile?.fileName,
+              code: selectedFile?.code,
+            }}
+            readOnly={false}
+            onChange={(value) => {
+              updateFile(selectedFile?.id, {
+                code: value,
+              });
+            }}
+          />
         </div>
-      </fieldset>
+      </div>
 
       <input type="submit" value="Crear" />
     </form>

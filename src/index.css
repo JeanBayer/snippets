@@ -30,16 +30,22 @@ body {
   min-height: 100vh;
 }
 
-button {
+button,
+input[type="submit"] {
+  cursor: pointer;
   padding: 4px 8px;
   background-color: #1a1a1a;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover,
+input[type="submit"]:hover {
   border-color: #646cff;
 }
+
 button:focus,
-button:focus-visible {
+button:focus-visible,
+input[type="submit"]:focus,
+input[type="submit"]:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -58,10 +64,6 @@ button:focus-visible {
 
 *::-webkit-scrollbar {
   display: none;
-}
-
-button {
-  cursor: pointer;
 }
 
 /*
