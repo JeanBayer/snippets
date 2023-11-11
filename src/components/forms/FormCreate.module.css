@@ -1,11 +1,66 @@
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 100vw;
   gap: 20px;
   padding: 20px;
   height: 80vh;
   min-height: 800px;
+}
+
+.inputTitulo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 280px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.fieldSetContainerStacks {
+  min-width: 280px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.containerInputStacks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.inputStack {
+  display: flex;
+  gap: 20px;
+  padding: 4px;
+  transition: all 0.3s ease;
+}
+
+.inputStack:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.inputStack:has(> .check:checked) {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.inputStack:has(> .check:focus-visible) {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.inputStack .check:focus-visible {
+  outline: none;
+}
+
+.check {
+  cursor: pointer;
 }
 
 .containerCode {

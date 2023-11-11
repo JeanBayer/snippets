@@ -83,7 +83,7 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <label>
+      <label className={styles.inputTitulo}>
         <span>Titulo:</span>
         <input
           type="text"
@@ -95,27 +95,30 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
         />
       </label>
 
-      <fieldset>
+      <fieldset className={styles.fieldSetContainerStacks}>
         <legend>Stacks</legend>
-        {stacks?.map((stack) => {
-          return (
-            <label key={stack.id}>
-              <input
-                type="checkbox"
-                id={stack.id}
-                value={stack.id}
-                checked={selectedStacks[stack?.id] === true}
-                onChange={(event) => {
-                  setSelectedStacks({
-                    ...selectedStacks,
-                    [stack.id]: event.target.checked,
-                  });
-                }}
-              />
-              <span>{stack.name}</span>
-            </label>
-          );
-        })}
+        <div className={styles.containerInputStacks}>
+          {stacks?.map((stack) => {
+            return (
+              <label className={styles.inputStack} key={stack.id}>
+                <input
+                  className={styles.check}
+                  type="checkbox"
+                  id={stack.id}
+                  value={stack.id}
+                  checked={selectedStacks[stack?.id] === true}
+                  onChange={(event) => {
+                    setSelectedStacks({
+                      ...selectedStacks,
+                      [stack.id]: event.target.checked,
+                    });
+                  }}
+                />
+                <span>{stack.name}</span>
+              </label>
+            );
+          })}
+        </div>
       </fieldset>
 
       <fieldset
@@ -142,6 +145,7 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
         <div
           style={{
             height: 500,
+            width: "100%",
             display: "flex",
             flexDirection: "column",
             gap: 5,

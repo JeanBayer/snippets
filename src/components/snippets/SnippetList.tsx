@@ -1,6 +1,6 @@
-import { SnippetCard } from "../../components";
+import { type FC } from "react";
 
-import type { FC } from "react";
+import { SnippetCard } from "../../components";
 import type { Snippet } from "../../types";
 
 import styles from "./SnippetList.module.css";
