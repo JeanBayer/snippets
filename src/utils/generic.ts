@@ -6,3 +6,8 @@ export const copy = async (text: string) => {
     throw err;
   }
 };
+
+export const generateId = () => crypto.randomUUID();
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

@@ -1,20 +1,15 @@
-import type { Language } from "../types";
+import type { Stack } from "../types";
 
-type Stack = {
-  id: string;
-  name: string;
-  img: string;
-};
+export type UUID = `${string}-${string}-${string}-${string}-${string}`;
 
-type File = {
-  id: string;
+export type File = {
+  id: UUID;
   fileName: string;
   code: string;
-  language: Language;
 };
 
 export type Snippet = {
-  id: string;
+  id: UUID;
   userId: string;
   title: string;
   stack: Stack[];

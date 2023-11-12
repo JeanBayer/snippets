@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 import { copy } from "../../utils";
 import styles from "./CopyIcon.module.css";
+import React from "react";
 
 type Props = {
   text: string;
@@ -16,7 +17,11 @@ export const CopyIcon: FC<Props> = ({
   style = "",
   handleCallback,
 }) => {
-  const handleCopyClick = async () => {
+  const handleCopyClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+
     try {
       copy(text);
       toast.success("Copied to clipboard!");

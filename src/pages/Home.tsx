@@ -1,10 +1,7 @@
-import { useGlobalState, withState } from "./state";
+import { useGlobalState } from "../state";
+import { SnippetList } from "../components";
 
-import { SnippetList } from "./components";
-
-import "./App.css";
-
-function App() {
+export const HomePage = () => {
   const { snippets } = useGlobalState();
 
   if (snippets.isLoading) return <main>loading...</main>;
@@ -15,6 +12,4 @@ function App() {
       <SnippetList snippets={snippets.data} />
     </main>
   );
-}
-
-export default withState(App);
+};

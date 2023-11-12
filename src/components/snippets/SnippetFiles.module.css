@@ -9,6 +9,7 @@
   cursor: pointer;
   background-color: rgb(40, 40, 40);
   border: 1px solid transparent;
+  text-transform: none;
 }
 
 .active {

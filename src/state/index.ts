@@ -1,3 +1,4 @@
+export { ProviderState } from "./ProviderState";
 export { withState } from "./HOCState";
 export { useGlobalState } from "./useGlobalState";
 export { useStore } from "./store";
