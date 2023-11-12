@@ -21,7 +21,7 @@ export const Code: FC<PropsWithChildren<Props>> = ({
     <div className={styles.code}>
       <Editor
         theme="vs-dark"
-        path={file?.id}
+        path={`${file?.id}/${file?.fileName}`}
         onChange={onChange}
         defaultValue={file?.code}
         options={{ readOnly, minimap: { enabled: false } }}
