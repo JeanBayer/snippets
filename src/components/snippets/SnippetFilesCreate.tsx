@@ -42,7 +42,7 @@ export const SnippetFilesCreate: FC<Props> = ({
               handleClick(id);
             }}
             {...register(`files.${id}.fileName`, {
-              required: true,
+              required: "El nombre del archivo es obligatorio",
             })}
           />
           <button

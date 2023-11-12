@@ -1,11 +1,10 @@
 import { FC } from "react";
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
-import { useForm } from "react-hook-form";
 
 import { Code, SnippetFilesCreate } from "../../components";
-import { generateId } from "../../utils";
-import { Snippet, UUID, type Stack } from "../../types";
+import { useFormCreate } from "../../hooks";
+import type { Snippet, Stack } from "../../types";
 
 import styles from "./FormCreate.module.css";
 
@@ -18,91 +17,41 @@ type Props = {
   }) => void;
 };
 
-const initialID = generateId();
-
-type FormValues = {
-  titulo: string;
-  selectedStacks: Record<string, boolean>;
-  files: Record<UUID, Snippet["files"][0]>;
-  selectedIdFile: UUID;
-};
-
 export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
-  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
-    defaultValues: {
-      titulo: "",
-      selectedStacks: {
-        [stacks[0].id]: false,
-      },
-      files: {
-        [initialID]: {
-          code: "",
-          fileName: "index.tsx",
-          id: initialID,
-        },
-      },
-      selectedIdFile: initialID,
-    },
+  const {
+    files,
+    selectedIdFile,
+
+    addFile,
+    addSelectedId,
+    deleteFile,
+    handleSubmit,
+    register,
+    updateFile,
+    validateForm,
+  } = useFormCreate({
+    stacks,
   });
 
-  const [files, selectedIdFile] = watch(["files", "selectedIdFile"]);
+  const handleSubmitForm = handleSubmit(
+    (data) => {
+      const { isValid, message, values } = validateForm(data);
+      if (!isValid) return toast.error(message);
+      onSubmit(values);
+    },
+    (errors) => {
+      if (errors.titulo)
+        return toast.error("Debes agregar un titulo al snippet");
 
-  const handleSubmitData = ({ titulo, selectedStacks, files }: FormValues) => {
-    if (!Object.values(selectedStacks).some((value) => value === true))
-      return toast.error("Debes seleccionar al menos un stack");
-
-    const filesValues = Object.values(files);
-
-    if (!filesValues.every(({ code }) => code !== ""))
-      return toast.error("Debes agregar al menos un archivo");
-
-    // onSubmit({
-    //   titulo,
-    //   selectedStacks,
-    //   files: filesValues,
-    // });
-  };
-
-  const updateFile = (id: UUID, data: Partial<Snippet["files"][0]>) => {
-    const newFiles = structuredClone(files);
-    newFiles[id] = {
-      ...newFiles[id],
-      ...data,
-    };
-    setValue("files", newFiles);
-  };
-
-  const addFile = () => {
-    const newId = generateId();
-    setValue(`files.${newId}`, {
-      code: "",
-      fileName: "newFile.ts",
-      id: newId,
-    });
-  };
-
-  const deleteFile = (id: UUID) => {
-    const newFiles = structuredClone(files);
-
-    if (Object.keys(newFiles).length === 1)
-      return toast.error("No puedes eliminar todos los archivos");
-
-    const listFilesIds = Object.keys(newFiles);
-    const indexSelectedFile = listFilesIds.findIndex((fileId) => fileId === id);
-    const nextSelectedFileId = listFilesIds.at(indexSelectedFile - 1);
-
-    delete newFiles[id];
-
-    if (!nextSelectedFileId) return;
-
-    setValue("selectedIdFile", nextSelectedFileId as UUID);
-    setValue("files", newFiles);
-  };
-
-  console.log("1");
+      if (errors.files)
+        return toast.error(
+          "Debes agregar al menos un nombre de archivo al snippet",
+        );
+    },
+  );
 
   return (
-    <form onSubmit={handleSubmit(handleSubmitData)} className={styles.form}>
+    <form onSubmit={handleSubmitForm} className={styles.form}>
       <h2>Crea tu Snippet</h2>
       <hr />
 
@@ -111,7 +60,7 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
         <input
           type="text"
           placeholder="Clipboard in javascript"
-          {...register("titulo", { required: true })}
+          {...register("titulo", { required: "El titulo es obligatorio" })}
         />
       </label>
 
@@ -139,19 +88,17 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
           })}
         </div>
       </div>
-      <SnippetFilesCreate
-        files={files}
-        selectedFileId={selectedIdFile}
-        handleClick={(id) => {
-          setValue("selectedIdFile", id);
-        }}
-        addFile={addFile}
-        handleDelete={deleteFile}
-        register={register}
-      />
 
       <div className={styles.fieldSetContainerSnippet}>
         <legend>Files:</legend>
+        <SnippetFilesCreate
+          files={files}
+          selectedFileId={selectedIdFile}
+          handleClick={addSelectedId}
+          addFile={addFile}
+          handleDelete={deleteFile}
+          register={register}
+        />
         <div className={styles.containerCode}>
           <Code
             file={{
