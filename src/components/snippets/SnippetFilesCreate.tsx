@@ -1,30 +1,30 @@
-import { type FC, type ChangeEvent } from "react";
+import { type FC } from "react";
 import classNames from "classnames";
 
-import type { Snippet } from "../../types";
+import type { File, UUID } from "../../types";
 
 import styles from "./SnippetFilesCreate.module.css";
 
 type Props = {
-  files: Snippet["files"];
-  selectedFileId: string;
-  handleClick: (id: string) => void;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleDelete: () => void;
+  files: Record<string, File>;
+  selectedFileId: UUID;
+  handleClick: (id: UUID) => void;
+  handleDelete: (id: UUID) => void;
   addFile: () => void;
+  register: any;
 };
 
 export const SnippetFilesCreate: FC<Props> = ({
   files,
   selectedFileId,
   handleClick,
-  handleChange,
   handleDelete,
   addFile,
+  register,
 }) => {
   return (
     <div className={styles.snippetFilesCreate}>
-      {files?.map(({ id, fileName }) => (
+      {Object.values(files)?.map(({ id }) => (
         <div
           key={id}
           className={styles.fileContainer}
@@ -38,11 +38,12 @@ export const SnippetFilesCreate: FC<Props> = ({
               [styles.active]: selectedFileId === id,
             })}
             type="text"
-            value={fileName}
             onClick={() => {
               handleClick(id);
             }}
-            onChange={handleChange}
+            {...register(`files.${id}.fileName`, {
+              required: true,
+            })}
           />
           <button
             className={classNames(styles.deleteButton, {
@@ -50,7 +51,7 @@ export const SnippetFilesCreate: FC<Props> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleDelete();
+              handleDelete(id);
             }}
           >
             <svg
