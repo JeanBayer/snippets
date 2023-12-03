@@ -99,21 +99,19 @@ export const FormCreate: FC<Props> = ({ stacks, onSubmit }) => {
           handleDelete={deleteFile}
           register={register}
         />
-        <div className={styles.containerCode}>
-          <Code
-            file={{
-              id: selectedIdFile,
-              fileName: files[selectedIdFile]?.fileName,
-              code: files[selectedIdFile]?.code,
-            }}
-            readOnly={false}
-            onChange={(value) => {
-              updateFile(selectedIdFile, {
-                code: value,
-              });
-            }}
-          />
-        </div>
+        <Code
+          file={{
+            id: selectedIdFile,
+            fileName: files[selectedIdFile]?.fileName,
+            code: files[selectedIdFile]?.code,
+          }}
+          readOnly={false}
+          onChange={(value) => {
+            updateFile(selectedIdFile, {
+              code: value,
+            });
+          }}
+        />
       </div>
 
       <input type="submit" value="Crear" />
