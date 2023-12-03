@@ -18,15 +18,17 @@ export const Code: FC<PropsWithChildren<Props>> = ({
   onChange = () => {},
 }) => {
   return (
-    <div className={styles.code}>
-      <Editor
-        theme="vs-dark"
-        path={`${file?.id}/${file?.fileName}`}
-        onChange={onChange}
-        defaultValue={file?.code}
-        options={{ readOnly, minimap: { enabled: false } }}
-      />
-      {children}
+    <div className={styles.containerCode}>
+      <div className={styles.code}>
+        <Editor
+          theme="vs-dark"
+          path={`${file?.id}/${file?.fileName}`}
+          onChange={onChange}
+          defaultValue={file?.code}
+          options={{ readOnly, minimap: { enabled: false } }}
+        />
+        {children}
+      </div>
     </div>
   );
 };
